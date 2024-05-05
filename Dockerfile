@@ -1,0 +1,26 @@
+# Build stage
+FROM golang:alpine as builder
+RUN apk add --no-cache upx 
+
+
+WORKDIR /src
+
+COPY go.mod go.sum main.go ./
+RUN go mod download
+
+COPY ./app ./app
+COPY ./pkg ./pkg
+COPY ./docs ./docs
+COPY ./config.monolith.yaml ./config.yaml
+
+ENV GOCACHE=/root/.cache/go-build
+RUN --mount=type=cache,target="/root/.cache/go-build" go build -ldflags="-s -w" -o /bin/app main.go
+RUN upx /bin/app --best --lzma
+
+FROM scratch
+
+COPY ./config.yaml ./config.yaml
+COPY --from=builder /bin/app /bin/app
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+
+ENTRYPOINT ["/bin/app"]
