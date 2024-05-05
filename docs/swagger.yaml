@@ -1,0 +1,479 @@
+basePath: /api
+definitions:
+  entity.PetType:
+    enum:
+    - dog
+    - cat
+    - bird
+    - fish
+    - rabbit
+    type: string
+    x-enum-varnames:
+    - Dog
+    - Cat
+    - Bird
+    - Fish
+    - Rabbit
+  helper.ErrorResponse:
+    properties:
+      error:
+        type: string
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
+  owner.CreateOwnerRequest:
+    properties:
+      name:
+        type: string
+    type: object
+  owner.CreateOwnerResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  owner.DeleteOwnerResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  owner.GetOwnerResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  owner.ListOwnersResponse:
+    properties:
+      page:
+        type: integer
+      per_page:
+        type: integer
+      rows:
+        items:
+          $ref: '#/definitions/owner.GetOwnerResponse'
+        type: array
+      total:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
+  owner.UpdateOwnerRequest:
+    properties:
+      name:
+        type: string
+    type: object
+  owner.UpdateOwnerResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  pet.CreatePetRequest:
+    properties:
+      name:
+        type: string
+      owner_id:
+        type: string
+      type:
+        type: string
+    type: object
+  pet.CreatePetResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  pet.DeletePetResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  pet.GetPetResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      owner_id:
+        type: string
+      type:
+        $ref: '#/definitions/entity.PetType'
+      updated_at:
+        type: string
+    type: object
+  pet.ListPetsResponse:
+    properties:
+      page:
+        type: integer
+      per_page:
+        type: integer
+      rows:
+        items:
+          $ref: '#/definitions/pet.GetPetResponse'
+        type: array
+      total:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
+  pet.UpdatePetRequest:
+    properties:
+      name:
+        type: string
+      owner_id:
+        type: string
+      type:
+        type: string
+    type: object
+  pet.UpdatePetResponse:
+    properties:
+      message:
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: This is a boilerplate for a monolithic application using Go.
+  title: Go-Monolithic-Boilerplate API Documentation
+  version: "1.0"
+paths:
+  /v1/owners:
+    get:
+      consumes:
+      - application/json
+      description: List owners
+      operationId: ListOwners
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Per Page
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/owner.ListOwnersResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      summary: List owners
+      tags:
+      - owners v1
+    post:
+      consumes:
+      - application/json
+      description: Create a owner
+      operationId: CreateOwner
+      parameters:
+      - description: Body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/owner.CreateOwnerRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/owner.CreateOwnerResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      summary: Create a owner
+      tags:
+      - owners v1
+  /v1/owners/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a owner
+      operationId: DeleteOwner
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/owner.DeleteOwnerResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      summary: Delete a owner
+      tags:
+      - owners v1
+    get:
+      consumes:
+      - application/json
+      description: Get a Owner
+      operationId: GetOwner
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/owner.GetOwnerResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      summary: Get a Owner
+      tags:
+      - owners v1
+    patch:
+      consumes:
+      - application/json
+      description: Update a owner
+      operationId: UpdateOwner
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/owner.UpdateOwnerRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/owner.UpdateOwnerResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      summary: Update a owner
+      tags:
+      - owners v1
+  /v1/pets:
+    get:
+      consumes:
+      - application/json
+      description: List Pets
+      operationId: ListPets
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Per Page
+        in: query
+        name: per_page
+        type: integer
+      - description: Has Owner
+        in: query
+        name: has_owner
+        type: boolean
+      - description: Owner ID
+        in: query
+        name: owner_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pet.ListPetsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      summary: List Pets
+      tags:
+      - pets v1
+    post:
+      consumes:
+      - application/json
+      description: Create a pet
+      operationId: CreatePet
+      parameters:
+      - description: Name
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/pet.CreatePetRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pet.CreatePetResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      summary: Create a pet
+      tags:
+      - pets v1
+  /v1/pets/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a pet
+      operationId: DeletePet
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pet.DeletePetResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      summary: Delete a pet
+      tags:
+      - pets v1
+    get:
+      consumes:
+      - application/json
+      description: Get a pet
+      operationId: GetPet
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pet.GetPetResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      summary: Get a pet
+      tags:
+      - pets v1
+    patch:
+      consumes:
+      - application/json
+      description: Update a pet
+      operationId: UpdatePet
+      parameters:
+      - description: Body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/pet.UpdatePetRequest'
+      - description: Owner ID
+        in: body
+        name: owner_id
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pet.UpdatePetResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helper.ErrorResponse'
+      summary: Update a pet
+      tags:
+      - pets v1
+schemes:
+- http
+swagger: "2.0"
