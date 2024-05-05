@@ -1,0 +1,48 @@
+name: go-monolithic-boilerplate
+services:
+    server:
+        container_name: server
+        build:
+            context: ./
+            dockerfile: Dockerfile.dev
+        networks:
+            - go-monolithic-boilerplate
+        ports:
+            - "8000:8000"
+        restart: always
+        environment:
+            - POSTGRES_HOST=postgresql-database
+            - POSTGRES_PORT=5432
+            - POSTGRES_USER=go-monolithic-boilerplate
+            - POSTGRES_PASSWORD=go-monolithic-boilerplate
+            - POSTGRES_DB=go-monolithic-boilerplate
+            - SWAGGER_USER=go-monolithic-boilerplate
+            - SWAGGER_PASSWORD=go-monolithic-boilerplate
+        depends_on:
+            - postgresql-database
+        volumes:
+            - ./:/src
+            - ./config.dev.yaml:/src/config.yaml
+
+    postgresql-database:
+        container_name: postgresql-database
+        image: postgres:14.6
+        environment:
+            - POSTGRES_USER=go-monolithic-boilerplate
+            - POSTGRES_PASSWORD=go-monolithic-boilerplate
+            - POSTGRES_DB=go-monolithic-boilerplate
+        ports:
+            - "5432:5432"
+        networks:
+            - go-monolithic-boilerplate
+        volumes:
+            - postgresql-data:/var/lib/postgresql/data/
+
+volumes:
+    postgresql-data:
+        driver: local
+        external: false
+
+networks:
+    go-monolithic-boilerplate:
+        driver: bridge
