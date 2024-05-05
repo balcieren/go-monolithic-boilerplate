@@ -21,7 +21,7 @@ How to use are [Swagger](https://github.com/gofiber/swagger), [Gorm](https://gor
 
 ### The Biggest Advantage of the Boilerplate
 
-The app can convertible to microservice from monolithic thanks to modularity easily. All we have to do is creating and seperating main.go files on the under of the app's folders.
+The app can convertible to microservice from monolithic thanks to modularity easily. All we have to do is creating main.go files seperately on the under of the app's folders.
 
 ```go
 // ./app/pet/main.go
