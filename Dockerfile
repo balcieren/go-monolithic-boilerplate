@@ -2,7 +2,6 @@
 FROM golang:alpine as builder
 RUN apk add --no-cache upx 
 
-
 WORKDIR /src
 
 COPY go.mod go.sum main.go ./
