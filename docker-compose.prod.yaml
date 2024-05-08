@@ -1,10 +1,10 @@
-name: go-monolithic-boilerplate-dev
+name: go-monolithic-boilerplate-prod
 services:
     server:
-        container_name: server
+        container_name: server-prod
         build:
             context: ./
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile.prod
         networks:
             - go-monolithic-boilerplate
         ports:
@@ -20,12 +20,9 @@ services:
             - SWAGGER_PASSWORD=go-monolithic-boilerplate
         depends_on:
             - postgresql-database
-        volumes:
-            - ./:/src
-            - ./config.dev.yaml:/src/config.yaml
 
     postgresql-database:
-        container_name: postgresql-database
+        container_name: postgresql-database-prod
         image: postgres:14.6
         environment:
             - POSTGRES_USER=go-monolithic-boilerplate
