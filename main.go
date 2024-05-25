@@ -18,6 +18,7 @@ import (
 
 func main() {
 	fx.New(
+		infrastructure.CommonModule(),
 		infrastructure.HTTPModule("go-monolithic-boilerplate"),
 		infrastructure.SwaggerModule, petApiV1.Module, ownerApiV1.Module,
 		fx.Invoke(infrastructure.LaunchHTTPServer),

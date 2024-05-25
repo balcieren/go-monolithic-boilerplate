@@ -8,7 +8,6 @@ import (
 	"github.com/balcieren/go-monolithic-boilerplate/pkg/config"
 	"github.com/balcieren/go-monolithic-boilerplate/pkg/database"
 	"github.com/balcieren/go-monolithic-boilerplate/pkg/helper"
-	"github.com/balcieren/go-monolithic-boilerplate/pkg/log"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"go.uber.org/fx"
@@ -20,9 +19,6 @@ func HTTPModule(name AppName) fx.Option {
 		fx.Provide(func() *AppName {
 			return &name
 		}),
-		fx.Provide(config.NewEnv),
-		fx.Provide(config.NewCommon),
-		fx.Provide(log.New),
 		fx.Provide(database.NewPostgreSQL),
 		fx.Provide(func(an *AppName, env *config.Env) *fiber.App {
 			app := fiber.New(fiber.Config{
