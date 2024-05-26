@@ -36,6 +36,7 @@ import (
 
 func main() {
 	fx.New(
+		infrastructure.CommonModule(),
 		infrastructure.HTTPModule("go-monolithic-boilerplate/pet-api"),
 		petApiV1.Module,
 		fx.Invoke(infrastructure.LaunchHTTPServer),
