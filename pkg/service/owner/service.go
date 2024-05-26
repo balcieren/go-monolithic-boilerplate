@@ -47,7 +47,7 @@ func (s *Service) ListOwners(ctx context.Context, req *ListOwnersRequest) (*List
 
 	owners, count, err := oq.WithContext(ctx).FindByPage((req.Page-1)*req.PerPage, req.PerPage)
 	if err != nil {
-		return nil, fail.New(fiber.StatusNotFound, err.Error())
+		return nil, fail.New(fiber.StatusNotFound, ErrOwnerListFailed.Error())
 	}
 
 	rows := make([]GetOwnerResponse, 0)
@@ -81,7 +81,7 @@ func (s *Service) GetOwner(ctx context.Context, req *GetOwnerRequest) (*GetOwner
 	owner, err := oq.WithContext(ctx).Where(oq.ID.Eq(id)).First()
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, fail.New(fiber.StatusNotFound, err.Error())
+			return nil, fail.New(fiber.StatusNotFound, ErrOwnerNotFound.Error())
 		}
 		return nil, fail.New(fiber.StatusInternalServerError, err.Error())
 	}
@@ -94,7 +94,7 @@ func (s *Service) GetOwner(ctx context.Context, req *GetOwnerRequest) (*GetOwner
 
 func (s *Service) CreateOwner(ctx context.Context, req *CreateOwnerRequest) (*CreateOwnerResponse, error) {
 	if len(req.Name) == 0 {
-		return nil, fail.New(fiber.StatusBadRequest, "name is required")
+		return nil, fail.New(fiber.StatusBadRequest, ErrOwnerNameRequired.Error())
 	}
 
 	owner := entity.Owner{
@@ -104,7 +104,7 @@ func (s *Service) CreateOwner(ctx context.Context, req *CreateOwnerRequest) (*Cr
 	oq := s.query.Owner
 
 	if err := oq.WithContext(ctx).Create(&owner); err != nil {
-		return nil, fail.New(fiber.StatusInternalServerError, err.Error())
+		return nil, fail.New(fiber.StatusInternalServerError, ErrOwnerCreateFailed.Error())
 	}
 
 	return &CreateOwnerResponse{
@@ -128,7 +128,7 @@ func (s *Service) UpdateOwner(ctx context.Context, req *UpdateOwnerRequest) (*Up
 
 	_, err = oq.WithContext(ctx).Where(oq.ID.Eq(id)).UpdateSimple(fields...)
 	if err != nil {
-		return nil, fail.New(fiber.StatusInternalServerError, err.Error())
+		return nil, fail.New(fiber.StatusInternalServerError, ErrOwnerUpdateFailed.Error())
 	}
 
 	return &UpdateOwnerResponse{
@@ -148,12 +148,12 @@ func (s *Service) DeleteOwner(ctx context.Context, req *DeleteOwnerRequest) (*De
 
 		_, err = oq.WithContext(ctx).Where(oq.ID.Eq(id)).Delete()
 		if err != nil {
-			return fail.New(fiber.StatusInternalServerError, err.Error())
+			return fail.New(fiber.StatusInternalServerError, ErrOwnerDeleteFailed.Error())
 		}
 
 		_, err = pq.WithContext(ctx).Where(pq.OwnerID.Eq(id)).UpdateSimple(pq.OwnerID.Value(nil))
 		if err != nil {
-			return fail.New(fiber.StatusInternalServerError, err.Error())
+			return fail.New(fiber.StatusInternalServerError, ErrOwnerDeleteFailed.Error())
 		}
 
 		return nil
