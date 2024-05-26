@@ -13,16 +13,13 @@ import (
 	"go.uber.org/fx"
 )
 
-func HTTPModule(name AppName) fx.Option {
+func HTTPModule(name string) fx.Option {
 	return fx.Module(
 		"http",
-		fx.Provide(func() *AppName {
-			return &name
-		}),
 		fx.Provide(database.NewPostgreSQL),
 		fx.Provide(func(an *AppName, env *config.Env) *fiber.App {
 			app := fiber.New(fiber.Config{
-				AppName:      an.String(),
+				AppName:      name,
 				ErrorHandler: helper.ErrorHandler,
 			})
 
