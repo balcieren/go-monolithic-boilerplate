@@ -8,13 +8,15 @@ import (
 	"go.uber.org/fx"
 )
 
-var SwaggerModule = fx.Module(
-	"swagger",
-	fx.Invoke(func(app *fiber.App, env *config.Env) {
-		app.Get("/api/swagger/*", basicauth.New(basicauth.Config{
-			Authorizer: func(user, pass string) bool {
-				return user == env.Swagger.User && pass == env.Swagger.Password
-			},
-		}), swagger.HandlerDefault)
-	}),
-)
+func SwaggerModule() fx.Option {
+	return fx.Module(
+		"swagger",
+		fx.Invoke(func(app *fiber.App, env *config.Env) {
+			app.Get("/api/swagger/*", basicauth.New(basicauth.Config{
+				Authorizer: func(user, pass string) bool {
+					return user == env.Swagger.User && pass == env.Swagger.Password
+				},
+			}), swagger.HandlerDefault)
+		}),
+	)
+}
