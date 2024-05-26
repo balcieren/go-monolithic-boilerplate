@@ -17,7 +17,7 @@ func HTTPModule(name string) fx.Option {
 	return fx.Module(
 		"http",
 		fx.Provide(database.NewPostgreSQL),
-		fx.Provide(func(an *AppName, env *config.Env) *fiber.App {
+		fx.Provide(func(env *config.Env) *fiber.App {
 			app := fiber.New(fiber.Config{
 				AppName:      name,
 				ErrorHandler: helper.ErrorHandler,
