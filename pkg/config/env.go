@@ -7,6 +7,7 @@ import (
 )
 
 type Env struct {
+	AppEnv   string `json:"app_env" yaml:"app_env"`
 	Postgres struct {
 		Host     string `json:"host" yaml:"host"`
 		Port     string `json:"port" yaml:"port"`
@@ -23,6 +24,8 @@ type Env struct {
 func NewEnv() (*Env, error) {
 	godotenv.Load()
 	env := Env{}
+
+	env.AppEnv = os.Getenv("APP_ENV")
 
 	env.Postgres.Host = os.Getenv("POSTGRES_HOST")
 	env.Postgres.Port = os.Getenv("POSTGRES_PORT")
