@@ -45,6 +45,16 @@ func main() {
 
 ```
 
+### Graph of the Monolithic Structure
+```mermaid
+graph TD;
+    App-->PetService
+    App-->OwnerService
+    PetService-->id1[(Database)];
+    OwnerService-->id1[(Database)];
+```
+
+
 ### Packages
 
 -   [Fiber](https://github.com/gofiber/fiber)
