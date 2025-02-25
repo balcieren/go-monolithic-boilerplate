@@ -7,7 +7,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/swaggo/swag v1.16.4
 	go.uber.org/zap v1.27.0
-	golang.org/x/crypto v0.34.0
+	golang.org/x/crypto v0.35.0
 	gopkg.in/yaml.v2 v2.4.0
 	gorm.io/gorm v1.25.12
 	gorm.io/plugin/dbresolver v1.5.3
