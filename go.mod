@@ -9,7 +9,7 @@ require (
 	go.uber.org/zap v1.27.0
 	golang.org/x/crypto v0.37.0
 	gopkg.in/yaml.v2 v2.4.0
-	gorm.io/gorm v1.25.12
+	gorm.io/gorm v1.26.0
 	gorm.io/plugin/dbresolver v1.5.3
 )
 
