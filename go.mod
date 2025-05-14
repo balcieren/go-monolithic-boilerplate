@@ -1,6 +1,7 @@
 module github.com/balcieren/go-monolithic-boilerplate
 
-go 1.22.2
+go 1.23.0
+
 toolchain go1.24.1
 
 require (
@@ -39,7 +40,7 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.52.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
-	go.uber.org/dig v1.18.0 // indirect
+	go.uber.org/dig v1.19.0 // indirect
 	golang.org/x/mod v0.17.0 // indirect
 	golang.org/x/sync v0.14.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
@@ -57,7 +58,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/joho/godotenv v1.5.1
 	github.com/lib/pq v1.10.9
-	go.uber.org/fx v1.23.0
+	go.uber.org/fx v1.24.0
 	go.uber.org/multierr v1.11.0 // indirect
 	gorm.io/driver/postgres v1.5.11
 	gorm.io/gen v0.3.27
