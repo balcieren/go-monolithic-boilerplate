@@ -60,5 +60,5 @@ require (
 	go.uber.org/fx v1.24.0
 	go.uber.org/multierr v1.11.0 // indirect
 	gorm.io/driver/postgres v1.6.2
-	gorm.io/gen v0.3.28
+	gorm.io/gen v0.3.29
 )
